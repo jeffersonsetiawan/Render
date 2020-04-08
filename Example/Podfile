@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'Render_Example' do
+  pod 'Render', :path => '../'
+
+  target 'Render_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
