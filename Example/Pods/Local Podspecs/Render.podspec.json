@@ -1,0 +1,22 @@
+{
+  "name": "Render",
+  "version": "0.1.0",
+  "summary": "A short description of Render.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/Jefferson Setiawan/Render",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "Jefferson Setiawan": "jefferson.setiawan@icloud.com"
+  },
+  "source": {
+    "git": "https://github.com/Jefferson Setiawan/Render.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "Render/Classes/**/*"
+}

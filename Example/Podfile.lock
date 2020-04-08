@@ -1,0 +1,16 @@
+PODS:
+  - Render (0.1.0)
+
+DEPENDENCIES:
+  - Render (from `../`)
+
+EXTERNAL SOURCES:
+  Render:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  Render: 833b5ee4a19df26c442512b6d907b34b1f5f48ef
+
+PODFILE CHECKSUM: 91bb802ad52de19476caa157246b8acf5438adfc
+
+COCOAPODS: 1.8.4

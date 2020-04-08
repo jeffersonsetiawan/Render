@@ -1,0 +1,220 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.1.3 (swiftlang-1100.0.282.1 clang-1100.0.33.15)
+// swift-module-flags: -target x86_64-apple-ios11.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -Onone -module-name Render
+import Foundation
+@_exported import Render
+import Swift
+import UIKit
+@objc public class TableNode : ObjectiveC.NSObject, Render.NodeType, UIKit.UITableViewDataSource, UIKit.UITableViewDelegate {
+  public var renderedView: UIKit.UIView? {
+    get
+  }
+  final public let identifier: Swift.String
+  public var disableCellReuse: Swift.Bool
+  public var index: Swift.Int {
+    get
+    set(newValue)
+  }
+  public var children: [Render.NodeType] {
+    get
+    set(newValue)
+  }
+  @discardableResult
+  public func add(children: [Render.NodeType]) -> Render.NodeType
+  @discardableResult
+  public func add(child: Render.NodeType) -> Render.NodeType
+  public init(identifier: Swift.String = "CollectionNode", children: [Render.NodeType] = [], create: @escaping Render.Node<UIKit.UITableView>.CreateBlock = { return UITableView() }, configure: @escaping Render.Node<UIKit.UITableView>.ConfigureBlock = { _, _, _ in })
+  public func render(in bounds: CoreGraphics.CGSize)
+  public func internalConfigure(in bounds: CoreGraphics.CGSize)
+  public func willRender()
+  public func didRender()
+  public func build(with reusable: UIKit.UIView?)
+  @objc public func tableView(_ tableView: UIKit.UITableView, numberOfRowsInSection section: Swift.Int) -> Swift.Int
+  @objc public func tableView(_ tableView: UIKit.UITableView, cellForRowAt indexPath: Foundation.IndexPath) -> UIKit.UITableViewCell
+  @objc override dynamic public init()
+  @objc deinit
+}
+public protocol NodeType : AnyObject {
+  var renderedView: UIKit.UIView? { get }
+  var identifier: Swift.String { get }
+  var children: [Render.NodeType] { get set }
+  @discardableResult
+  func add(children: [Render.NodeType]) -> Render.NodeType
+  var index: Swift.Int { get set }
+  func render(in bounds: CoreGraphics.CGSize)
+  func internalConfigure(in bounds: CoreGraphics.CGSize)
+  func willRender()
+  func didRender()
+  func build(with reusable: UIKit.UIView?)
+}
+public class Node<V> : Render.NodeType where V : UIKit.UIView {
+  public typealias CreateBlock = () -> V
+  public typealias ConfigureBlock = (V, Render.RYGLayout, CoreGraphics.CGSize) -> (Swift.Void)
+  public typealias OnRenderBlock = (V?) -> (Swift.Void)
+  public var renderedView: UIKit.UIView? {
+    get
+  }
+  public var view: V? {
+    get
+    }
+  final public let identifier: Swift.String
+  final public let resetBeforeReuse: Swift.Bool
+  public var onRender: (will: ((V?) -> (Swift.Void))?, did: ((V?) -> (Swift.Void))?)
+  public var index: Swift.Int
+  public var children: [Render.NodeType] {
+    get
+    set(newValue)
+  }
+  @discardableResult
+  public func add(children: [Render.NodeType]) -> Render.NodeType
+  @discardableResult
+  public func add(child: Render.NodeType) -> Render.NodeType
+  public init(identifier: Swift.String = String(describing: V.self), resetBeforeReuse: Swift.Bool = false, children: [Render.NodeType] = [], create: @escaping Render.Node<V>.CreateBlock = { V() }, configure: @escaping Render.Node<V>.ConfigureBlock = { _, _, _ in })
+  public func render(in bounds: CoreGraphics.CGSize)
+  public func internalConfigure(in bounds: CoreGraphics.CGSize)
+  public func willRender()
+  public func didRender()
+  public func build(with reusable: UIKit.UIView? = nil)
+  @objc deinit
+}
+public class NilNode : Render.NodeType {
+  public var renderedView: UIKit.UIView? {
+    get
+    set(value)
+  }
+  public var identifier: Swift.String
+  public var children: [Render.NodeType]
+  public func add(children: [Render.NodeType]) -> Render.NodeType
+  public var index: Swift.Int
+  public init()
+  public func render(in bounds: CoreGraphics.CGSize)
+  public func internalConfigure(in bounds: CoreGraphics.CGSize)
+  public func willRender()
+  public func didRender()
+  public func build(with reusable: UIKit.UIView?)
+  @objc deinit
+}
+extension CGFloat {
+  public static var undefined: CoreGraphics.CGFloat
+  public static var max: CoreGraphics.CGFloat
+  public static var epsilon: CoreGraphics.CGFloat
+}
+extension CGSize {
+  public static var undefined: CoreGraphics.CGSize
+  public static var max: CoreGraphics.CGSize
+  public static var epsilon: CoreGraphics.CGSize
+}
+extension CGRect {
+  public mutating func normalize()
+}
+extension UIView {
+  public var isAnimatable: Swift.Bool {
+    get
+    set(newValue)
+  }
+}
+public protocol StateType {
+}
+public struct NilState : Render.StateType {
+}
+public enum RenderOption {
+  case preventViewHierarchyDiff
+  case animated(duration: Foundation.TimeInterval, options: UIKit.UIView.AnimationOptions, alongside: (() -> Swift.Void)?)
+  case __animated
+}
+public protocol AnyComponentView : AnyObject {
+}
+public protocol ComponentViewType : Render.AnyComponentView {
+  associatedtype StateType
+  var state: Self.StateType? { get set }
+  func render(in bounds: CoreGraphics.CGSize, options: [Render.RenderOption])
+  func sizeThatFits(_ size: CoreGraphics.CGSize) -> CoreGraphics.CGSize
+  var intrinsicContentSize: CoreGraphics.CGSize { get }
+}
+open class ComponentView<S> : UIKit.UIView, Render.ComponentViewType where S : Render.StateType {
+  public typealias StateType = S
+  public typealias Construct = (S?, CoreGraphics.CGSize) -> Render.NodeType
+  public var state: S?
+  public var defaultOptions: [Render.RenderOption]
+  public var reuseIdentifier: Swift.String {
+    get
+  }
+  public var constructBlock: ((S?, CoreGraphics.CGSize) -> Render.NodeType)?
+  @objc dynamic public init()
+  @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
+  open func construct(state: S?, size: CoreGraphics.CGSize = CGSize.undefined) -> Render.NodeType
+  open func willRender()
+  public func render(in bounds: CoreGraphics.CGSize = CGSize.max, options: [Render.RenderOption] = [])
+  open func didRender()
+  public func views(root: UIKit.UIView? = nil, matching: (UIKit.UIView) -> Swift.Bool) -> [UIKit.UIView]
+  public func views(withReuseIdentifier id: Swift.String) -> [UIKit.UIView]
+  @objc override dynamic open func sizeThatFits(_ size: CoreGraphics.CGSize) -> CoreGraphics.CGSize
+  @objc override dynamic open var intrinsicContentSize: CoreGraphics.CGSize {
+    @objc get
+  }
+  @objc override dynamic public init(frame: CoreGraphics.CGRect)
+  @objc deinit
+}
+extension RenderOption : Swift.Equatable {
+  public var kind: Swift.Int {
+    get
+  }
+  public static func == (lhs: Render.RenderOption, rhs: Render.RenderOption) -> Swift.Bool
+  public static func filter(_ options: [Render.RenderOption], _ option: Render.RenderOption) -> [Render.RenderOption]
+  public static func contains(_ options: [Render.RenderOption], _ option: Render.RenderOption) -> Swift.Bool
+  public static func first(_ options: [Render.RenderOption], _ option: Render.RenderOption) -> Render.RenderOption?
+}
+public class NilStateComponentView : Render.ComponentView<Render.NilState> {
+  @objc override dynamic public init()
+  @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
+  @objc deinit
+}
+public protocol ComponentCellType {
+  func render(in bounds: CoreGraphics.CGSize, options: [Render.RenderOption])
+}
+open class ComponentTableViewCell<C> : UIKit.UITableViewCell where C : Render.ComponentViewType {
+  public var state: C.StateType? {
+    get
+    set(newValue)
+  }
+  public var componentView: C? {
+    get
+    }
+  @objc override dynamic public init(style: UIKit.UITableViewCell.CellStyle, reuseIdentifier: Swift.String?)
+  @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
+  open func mountComponentIfNecessary(_ component: @autoclosure () -> C)
+  open func render(in bounds: CoreGraphics.CGSize = CGSize(width: CGFloat.undefined, height: CGFloat.max), options: [Render.RenderOption] = [])
+  @objc override dynamic open func sizeThatFits(_ size: CoreGraphics.CGSize) -> CoreGraphics.CGSize
+  @objc override dynamic open var intrinsicContentSize: CoreGraphics.CGSize {
+    @objc get
+  }
+  @objc deinit
+}
+open class ComponentCollectionViewCell<C> : UIKit.UICollectionViewCell where C : Render.ComponentViewType {
+  public var state: C.StateType?
+  public var componentView: C? {
+    get
+    }
+  open func mountComponentIfNecessary(_ component: @autoclosure () -> C)
+  open func render(in bounds: CoreGraphics.CGSize = CGSize(width: CGFloat.undefined, height: CGFloat.max), options: [Render.RenderOption] = [])
+  @objc override dynamic open func sizeThatFits(_ size: CoreGraphics.CGSize) -> CoreGraphics.CGSize
+  @objc override dynamic open var intrinsicContentSize: CoreGraphics.CGSize {
+    @objc get
+  }
+  @objc override dynamic public init(frame: CoreGraphics.CGRect)
+  @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+extension UITableView {
+  public func render(at indexPath: Foundation.IndexPath)
+  public func renderVisibleComponents()
+}
+extension UICollectionView {
+  public func render(at indexPath: Foundation.IndexPath)
+  public func renderVisibleComponents()
+}
+public struct CellPrototype {
+  public static func defaultIdentifier<C>(_ class: C.Type) -> Swift.String where C : Render.AnyComponentView
+  public static func register<C>(identifier: Swift.String = String(describing: C.self), component: C) where C : Render.AnyComponentView
+  public static func size<C>(in container: UIKit.UIView, class: C.Type, identifier: Swift.String = String(describing: C.self), state: Render.StateType) -> CoreGraphics.CGSize where C : Render.ComponentViewType
+}
