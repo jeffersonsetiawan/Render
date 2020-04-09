@@ -1,0 +1,14 @@
+{
+  "repository_name": "ios-render-sdk",
+  "description": "Code base for customed Render SDK files for iOS platform.",
+  "security_owner": "jeffersonsetiawan",
+  "app": [
+    {
+      "name": "ios-render-sdk",
+      "description": "Code base for customed Render SDK files for iOS platform.",
+      "owner": "ayocen",
+      "slack_channel": "teamios"
+    }
+  ],
+  "last_update": "08/04/2020"
+}
